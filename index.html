@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posada 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .snow {
+            position: fixed;
+            top: -100px;
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear infinite;
+        }
+
+        .home-screen {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, black, #7f1d1d, black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            padding: 1rem;
+        }
+
+        .star {
+            position: absolute;
+            color: #ef4444;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 3rem;
+            z-index: 10;
+        }
+
+        .title {
+            font-size: 6rem;
+            font-weight: bold;
+            color: hsl(0, 100%, 95%);
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.8), 0 0 20px rgba(220,38,38,0.8);
+            margin-bottom: 1rem;
+        }
+
+        .year {
+            font-size: 5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 30px rgba(220,38,38,0.6);
+            animation: pulse 2s infinite;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 28rem;
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 2rem 3rem;
+            border-radius: 1rem;
+            font-size: 1.875rem;
+            font-weight: bold;
+            border: 4px solid #dc2626;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-registro {
+            background: black;
+            color: #dc2626;
+        }
+
+        .btn-registro:hover {
+            background: #1f1f1f;
+        }
+
+        .btn-rifa {
+            background: linear-gradient(to right, #b91c1c, #7f1d1d);
+            color: white;
+        }
+
+        .btn-rifa:hover {
+            background: linear-gradient(to right, #991b1b, black);
+        }
+
+        .rh-btn {
+            position: absolute;
+            bottom: 2rem;
+            background: transparent;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .rh-btn:hover {
+            color: #ef4444;
+        }
+
+        .screen {
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, black, #450a0a, black);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .screen.active {
+            display: block !important;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #ef4444;
+            text-shadow: 0 10px 15px -3px rgba(0,0,0,0.7);
+        }
+
+        .close-btn {
+            background: black;
+            padding: 0.75rem;
+            border-radius: 9999px;
+            border: 4px solid #dc2626;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.9);
+        }
+
+        .close-btn:hover {
+            background: #7f1d1d;
+        }
+
+        .card {
+            background: black;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 4px solid #dc2626;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .input {
+            width: 100%;
+            padding: 1rem;
+            border: 4px solid #dc2626;
+            border-radius: 0.75rem;
+            background: #1f1f1f;
+            color: white;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #ef4444;
+        }
+
+        .input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .message.success {
+            background: #7f1d1d;
+            color: #fecaca;
+            border: 2px solid #dc2626;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .company-btn {
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 4px solid #dc2626;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9);
+            color: white;
+        }
+
+        .company-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .company-btn h3 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-btn p {
+            font-size: 1.25rem;
+            color: #fca5a5;
+            font-weight: 600;
+        }
+
+        .roulette {
+            width: 20rem;
+            height: 20rem;
+            margin: 0 auto 2rem;
+            background: linear-gradient(to bottom right, #7f1d1d, black, #991b1b);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid #dc2626;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9);
+            position: relative;
+        }
+
+        .roulette.spinning {
+            animation: pulse 0.5s infinite;
+        }
+
+        .roulette-text {
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1rem;
+            text-shadow: 0 10px 15px -3px rgba(0,0,0,0.7);
+        }
+
+        .winner-star {
+            position: absolute;
+            color: #ef4444;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-field label {
+            color: #fca5a5;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .employee-card {
+            border: 4px solid #dc2626;
+            background: linear-gradient(to bottom right, #1f1f1f, black);
+            padding: 1.5rem;
+            border-radius: 1rem;
+        }
+
+        .employee-card .qr-section {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .employee-card h3 {
+            color: #ef4444;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .employee-card p {
+            color: #fca5a5;
+            margin: 0.25rem 0;
+        }
+
+        .id-badge {
+            background: #7f1d1d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #dc2626;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla Principal -->
+    <div id="homeScreen" class="home-screen">
+        <div class="logo">
+            <img src="logo.png" alt="Logo" style="max-width: 150px; max-height: 80px; display: block;" onerror="this.style.display='none'">
+        </div>
+
+        <div class="star" style="top: 1rem; left: 1rem; font-size: 3rem;">★</div>
+        <div class="star" style="top: 1rem; right: 1rem; font-size: 3rem;">★</div>
+
+        <div class="title-container">
+            <h1 class="title">POSADA</h1>
+            <h2 class="year">2025</h2>
+        </div>
+
+        <div class="buttons-container">
+            <button class="btn btn-registro" onclick="showScreen('registro')">
+                Registro
+            </button>
+            <button class="btn btn-rifa" onclick="showScreen('rifa')">
+                Rifa
+            </button>
+        </div>
+
+        <button class="rh-btn" onclick="showScreen('admin')">RH</button>
+    </div>
+
+    <!-- Pantalla Registro -->
+    <div id="registroScreen" class="screen">
+        <div class="header">
+            <h1>Registro de Asistencia</h1>
+            <button class="close-btn" onclick="showScreen('home')">
+                <span style="color: #dc2626; font-size: 2rem;">×</span>
+            </button>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Escanear QR</h2>
+                <div id="reader" style="width: 100%; display: none;"></div>
+                <button class="btn btn-rifa" id="startScanBtn" onclick="startScanner()">
+                    Iniciar Escáner
+                </button>
+                <button class="btn" id="stopScanBtn" onclick="stopScanner()" style="display: none; background: #374151; color: white; border-color: #dc2626; margin-top: 1rem;">
+                    Detener Escáner
+                </button>
+                <div id="scanResult" class="message hidden"></div>
+            </div>
+
+            <div class="card">
+                <h2>Código Manual</h2>
+                <p style="color: #fca5a5; font-size: 0.9rem; margin-bottom: 1rem;">
+                    Ingresa el <strong>número de 8 dígitos</strong> que aparece debajo del QR<br>
+                    <span style="color: #fcd34d;">Ejemplo: 45782931</span>
+                </p>
+                <input type="text" id="manualQR" class="input" placeholder="Ingresa el número (8 dígitos)" maxlength="8">
+                <button class="btn btn-rifa" onclick="registrarManual()">
+                    🔍 Buscar y Registrar
+                </button>
+                <div id="registroMessage" class="message hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Rifa -->
+    <div id="rifaScreen" class="screen">
+        <div class="header">
+            <h1>Rifa de Premios</h1>
+            <button class="close-btn" onclick="showScreen('home')">
+                <span style="color: #dc2626; font-size: 2rem;">×</span>
+            </button>
+        </div>
+
+        <div id="companyList" class="grid">
+            <button class="company-btn" style="background: linear-gradient(to bottom right, #991b1b, black);" onclick="selectCompany('NRT', 'Smart TV 55')">
+                <h3>NRT</h3>
+                <p>Premio: Smart TV 55"</p>
+            </button>
+            <button class="company-btn" style="background: linear-gradient(to bottom right, #b91c1c, #7f1d1d);" onclick="selectCompany('Canal 6', 'Tablet Samsung')">
+                <h3>Canal 6</h3>
+                <p>Premio: Tablet Samsung</p>
+            </button>
+            <button class="company-btn" style="background: linear-gradient(to bottom right, #7f1d1d, black);" onclick="selectCompany('EII', 'PlayStation 5')">
+                <h3>EII</h3>
+                <p>Premio: PlayStation 5</p>
+            </button>
+            <button class="company-btn" style="background: linear-gradient(to bottom right, black, #7f1d1d);" onclick="selectCompany('Fibranet', 'iPhone 15')">
+                <h3>Fibranet</h3>
+                <p>Premio: iPhone 15</p>
+            </button>
+        </div>
+
+        <div id="rouletteContainer" class="hidden">
+            <div class="card">
+                <h2 style="text-align: center;">Premio: <span id="premioText"></span></h2>
+                
+                <div id="roulette" class="roulette">
+                    <div class="winner-star" style="top: 1rem; left: 1rem;">★</div>
+                    <div class="winner-star" style="top: 1rem; right: 1rem;">★</div>
+                    <div class="winner-star" style="bottom: 1rem; left: 1rem;">★</div>
+                    <div class="winner-star" style="bottom: 1rem; right: 1rem;">★</div>
+                    <div class="roulette-text" id="winnerText">Presiona Rifar</div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-rifa" style="flex: 1;" onclick="rifar()" id="rifaBtn">
+                        Rifar
+                    </button>
+                    <button class="btn" style="background: linear-gradient(to right, #374151, black); color: white; border-color: #dc2626;" onclick="volverCompanias()">
+                        Volver
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Admin -->
+    <div id="adminScreen" class="screen">
+        <div id="loginForm">
+            <div class="header" style="justify-content: center;">
+                <h1>Panel RH</h1>
+            </div>
+            <div style="max-width: 28rem; margin: 0 auto;">
+                <div class="card">
+                    <input type="password" id="password" class="input" placeholder="Contraseña">
+                    <button class="btn btn-rifa" style="width: 100%; margin-bottom: 1rem;" onclick="login()">
+                        Aceptar
+                    </button>
+                    <button class="btn" style="width: 100%; background: #374151; color: white; border-color: #dc2626;" onclick="showScreen('home')">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="adminPanel" class="hidden">
+            <div class="header">
+                <h1>Panel de Administración RH</h1>
+                <button class="close-btn" onclick="showScreen('home')">
+                    <span style="color: #dc2626; font-size: 2rem;">×</span>
+                </button>
+            </div>
+
+            <div class="card">
+                <h2>📊 Importar desde Excel</h2>
+                <p style="color: #fca5a5; margin-bottom: 1rem; font-size: 0.9rem;">
+                    El archivo debe contener columnas con nombres como:<br>
+                    <strong>Nombre</strong> (o "Nombre Completo"), <strong>Razón Social</strong> (o "Sucursal" o "Empresa"), <strong>Correo</strong> (o "Email"), <strong>Acompañante</strong> (opcional)<br>
+                    <span style="font-size: 0.85rem; color: #fcd34d;">💡 El sistema detecta automáticamente las columnas aunque tengan nombres diferentes</span>
+                </p>
+                <label for="excelFile" style="display: block; margin-bottom: 0.5rem;">
+                    <div style="background: #1f1f1f; padding: 1rem; border: 4px dashed #dc2626; border-radius: 0.75rem; text-align: center; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='#ef4444'" onmouseout="this.style.borderColor='#dc2626'">
+                        <span style="color: #fca5a5; font-size: 1.1rem; font-weight: bold;">📁 Seleccionar archivo Excel</span>
+                        <p id="fileName" style="color: #fcd34d; margin-top: 0.5rem; font-size: 0.9rem;">Ningún archivo seleccionado</p>
+                    </div>
+                </label>
+                <input type="file" id="excelFile" accept=".xlsx,.xls" style="display: none;" onchange="mostrarNombreArchivo()">
+                <button class="btn btn-rifa" style="width: 100%; margin-top: 1rem;" onclick="importarExcel()">
+                    📤 Importar Empleados
+                </button>
+                <div id="importProgress" class="message hidden"></div>
+            </div>
+
+            <div class="card">
+                <h2>➕ Registrar Empleado Individual</h2>
+                
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>ID Empleado (Automático)</label>
+                        <input type="text" id="empId" class="input" readonly style="background: #374151;">
+                    </div>
+                    
+                    <div class="form-field">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="empNombre" class="input" placeholder="Ej: Martin Pérez García">
+                    </div>
+                    
+                    <div class="form-field">
+                        <label>Razón Social *</label>
+                        <input type="text" id="empSucursal" class="input" placeholder="Ej: NRT">
+                    </div>
+                    
+                    <div class="form-field">
+                        <label>Correo Electrónico *</label>
+                        <input type="email" id="empCorreo" class="input" placeholder="ejemplo@correo.com">
+                    </div>
+                    
+                    <div class="form-field">
+                        <label>Acompañante</label>
+                        <input type="text" id="empAcompanante" class="input" placeholder="SI/NO">
+                    </div>
+                </div>
+
+                <button class="btn btn-rifa" style="width: 100%;" onclick="agregarEmpleado()">
+                    Agregar Empleado
+                </button>
+            </div>
+
+            <div class="card">
+                <h2>Empleados Registrados (<span id="empCount">0</span>)</h2>
+                <div id="employeeList" class="grid"></div>
+                
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #dc2626;">
+                    <h3 style="color: #ef4444; margin-bottom: 1rem;">⚠️ Zona de Peligro</h3>
+                    <button class="btn" style="width: 100%; background: linear-gradient(to right, #7f1d1d, #450a0a); color: #fca5a5; border-color: #dc2626;" onclick="borrarTodo()">
+                        🗑️ BORRAR TODO
+                    </button>
+                    <p style="color: #fca5a5; font-size: 0.8rem; margin-top: 0.5rem; text-align: center;">
+                        Esto eliminará TODOS los empleados, asistencias y ganadores
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC0VFyrc34QYf6aV3zh_rO08c7wsNMJsFo",
+            authDomain: "posa-a0a7b.firebaseapp.com",
+            projectId: "posa-a0a7b",
+            storageBucket: "posa-a0a7b.firebasestorage.app",
+            messagingSenderId: "727908900241",
+            appId: "1:727908900241:web:de358da688dfbf2692ce30",
+            measurementId: "G-XD556GLMZH"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let employees = [];
+        let currentPremio = '';
+        let html5QrcodeScanner = null;
+
+        async function getNextId() {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'Registro'));
+                if (querySnapshot.empty) return 1;
+                
+                let maxId = 0;
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.idEmpleado > maxId) maxId = data.idEmpleado;
+                });
+                return maxId + 1;
+            } catch (error) {
+                console.error('Error al obtener ID:', error);
+                return 1;
+            }
+        }
+
+        async function updateIdField() {
+            const nextIdValue = await getNextId();
+            document.getElementById('empId').value = nextIdValue;
+        }
+
+        window.showScreen = async function(screen) {
+            document.querySelectorAll('.home-screen, .screen').forEach(s => {
+                s.style.display = 'none';
+                s.classList.remove('active');
+            });
+
+            if (screen === 'home') {
+                document.getElementById('homeScreen').style.display = 'flex';
+            } else {
+                document.getElementById(screen + 'Screen').classList.add('active');
+            }
+
+            if (screen === 'admin') {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('adminPanel').classList.add('hidden');
+            }
+        };
+
+        window.registrarManual = async function() {
+            const numeroInput = document.getElementById('manualQR').value.trim();
+            const msg = document.getElementById('registroMessage');
+            
+            if (!numeroInput) {
+                msg.textContent = '⚠️ Por favor ingresa el número de 8 dígitos';
+                msg.style.background = '#92400e';
+                msg.style.color = '#fef3c7';
+                msg.classList.remove('hidden');
+                setTimeout(() => msg.classList.add('hidden'), 3000);
+                return;
+            }
+
+            if (numeroInput.length !== 8 || isNaN(numeroInput)) {
+                msg.textContent = '⚠️ El número debe tener exactamente 8 dígitos';
+                msg.style.background = '#92400e';
+                msg.style.color = '#fef3c7';
+                msg.classList.remove('hidden');
+                setTimeout(() => msg.classList.add('hidden'), 3000);
+                return;
+            }
+
+            try {
+                msg.textContent = '🔍 Buscando empleado...';
+                msg.style.background = '#7f1d1d';
+                msg.style.color = '#fecaca';
+                msg.classList.remove('hidden');
+
+                const querySnapshot = await getDocs(collection(db, 'Registro'));
+                let empleadoEncontrado = null;
+                
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.numeroRandom && data.numeroRandom.toString() === numeroInput) {
+                        empleadoEncontrado = { id: doc.id, ...data };
+                    }
+                });
+
+                if (!empleadoEncontrado) {
+                    msg.textContent = '❌ Número no encontrado en el sistema';
+                    msg.style.background = '#450a0a';
+                    msg.style.color = '#fca5a5';
+                    setTimeout(() => msg.classList.add('hidden'), 4000);
+                    document.getElementById('manualQR').value = '';
+                    return;
+                }
+
+                const hoy = new Date().toISOString().split('T')[0];
+                const asistenciasSnapshot = await getDocs(collection(db, 'asistencias'));
+                let yaRegistrado = false;
+                
+                asistenciasSnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const fechaRegistro = data.timestamp.split('T')[0];
+                    if (data.idEmpleado === empleadoEncontrado.idEmpleado && fechaRegistro === hoy) {
+                        yaRegistrado = true;
+                    }
+                });
+
+                if (yaRegistrado) {
+                    msg.textContent = `⚠️ ${empleadoEncontrado.nombre} ya registró asistencia hoy`;
+                    msg.style.background = '#92400e';
+                    msg.style.color = '#fef3c7';
+                    setTimeout(() => msg.classList.add('hidden'), 4000);
+                    document.getElementById('manualQR').value = '';
+                    return;
+                }
+
+                await addDoc(collection(db, 'asistencias'), {
+                    idEmpleado: empleadoEncontrado.idEmpleado,
+                    nombre: empleadoEncontrado.nombre,
+                    sucursal: empleadoEncontrado.sucursal,
+                    acompanante: empleadoEncontrado.acompanante,
+                    numeroRandom: empleadoEncontrado.numeroRandom,
+                    qrCode: empleadoEncontrado.qrCode,
+                    timestamp: new Date().toISOString(),
+                    metodo: 'manual'
+                });
+                
+                const acompananteInfo = empleadoEncontrado.acompanante && empleadoEncontrado.acompanante !== 'N/A' && empleadoEncontrado.acompanante.toLowerCase() !== 'no' 
+                    ? `👥 Con acompañante: ${empleadoEncontrado.acompanante}` 
+                    : '👤 Sin acompañante';
+                
+                msg.innerHTML = `
+                    <div style="text-align: left;">
+                        <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">✅ ¡Bienvenido!</div>
+                        <div style="font-size: 1.1rem; margin-bottom: 0.3rem;"><strong>${empleadoEncontrado.nombre}</strong></div>
+                        <div style="font-size: 0.95rem; opacity: 0.9;">🏢 ${empleadoEncontrado.sucursal}</div>
+                        <div style="font-size: 0.95rem; opacity: 0.9;">🆔 ID: ${empleadoEncontrado.idEmpleado}</div>
+                        <div style="font-size: 0.95rem; opacity: 0.9;">${acompananteInfo}</div>
+                        <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem;">📱 Registro manual</div>
+                    </div>
+                `;
+                msg.style.background = '#7f1d1d';
+                msg.style.color = '#fecaca';
+                msg.classList.add('success');
+                setTimeout(() => msg.classList.add('hidden'), 6000);
+                document.getElementById('manualQR').value = '';
+
+            } catch (error) {
+                console.error('Error al procesar registro manual:', error);
+                msg.textContent = '❌ Error al procesar: ' + error.message;
+                msg.style.background = '#450a0a';
+                msg.style.color = '#fca5a5';
+                setTimeout(() => msg.classList.add('hidden'), 4000);
+            }
+        };
+
+        window.startScanner = function() {
+            const readerDiv = document.getElementById('reader');
+            const startBtn = document.getElementById('startScanBtn');
+            const stopBtn = document.getElementById('stopScanBtn');
+            
+            readerDiv.style.display = 'block';
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'block';
+
+            html5QrcodeScanner = new Html5Qrcode("reader");
+            
+            html5QrcodeScanner.start(
+                { facingMode: "environment" },
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                async (decodedText) => {
+                    await procesarRegistro(decodedText, 'scanResult');
+                    stopScanner();
+                },
+                (errorMessage) => {}
+            ).catch((err) => {
+                console.error('Error al iniciar cámara:', err);
+                alert('No se pudo acceder a la cámara.');
+                stopScanner();
+            });
+        };
+
+        window.stopScanner = function() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.stop().then(() => {
+                    document.getElementById('reader').style.display = 'none';
+                    document.getElementById('startScanBtn').style.display = 'block';
+                    document.getElementById('stopScanBtn').style.display = 'none';
+                    html5QrcodeScanner = null;
+                }).catch((err) => console.error('Error al detener:', err));
+            }
+        };
+
+        async function procesarRegistro(qrData, messageId = 'scanResult') {
+            try {
+                // Decodificar el QR si viene codificado
+                let qrDecodificado = qrData;
+                try {
+                    qrDecodificado = decodeURIComponent(qrData);
+                } catch (e) {
+                    qrDecodificado = qrData; // Si falla, usar el original
+                }
+
+                const querySnapshot = await getDocs(collection(db, 'Registro'));
+                let empleadoEncontrado = null;
+                
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    // Comparar tanto codificado como decodificado
+                    if (data.qrCode === qrData || data.qrCode === qrDecodificado || 
+                        encodeURIComponent(data.qrCode) === qrData) {
+                        empleadoEncontrado = { id: doc.id, ...data };
+                    }
+                });
+
+                const msg = document.getElementById(messageId);
+
+                if (empleadoEncontrado) {
+                    const hoy = new Date().toISOString().split('T')[0];
+                    const asistenciasSnapshot = await getDocs(collection(db, 'asistencias'));
+                    let yaRegistrado = false;
+                    
+                    asistenciasSnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const fechaRegistro = data.timestamp.split('T')[0];
+                        if (data.idEmpleado === empleadoEncontrado.idEmpleado && fechaRegistro === hoy) {
+                            yaRegistrado = true;
+                        }
+                    });
+
+                    if (yaRegistrado) {
+                        msg.textContent = `⚠️ ${empleadoEncontrado.nombre} ya registró asistencia hoy`;
+                        msg.style.background = '#92400e';
+                        msg.style.color = '#fef3c7';
+                        msg.classList.remove('hidden');
+                        setTimeout(() => msg.classList.add('hidden'), 4000);
+                        return;
+                    }
+
+                    await addDoc(collection(db, 'asistencias'), {
+                        idEmpleado: empleadoEncontrado.idEmpleado,
+                        nombre: empleadoEncontrado.nombre,
+                        sucursal: empleadoEncontrado.sucursal,
+                        acompanante: empleadoEncontrado.acompanante,
+                        numeroRandom: empleadoEncontrado.numeroRandom,
+                        qrCode: qrData,
+                        timestamp: new Date().toISOString(),
+                        metodo: 'qr'
+                    });
+                    
+                    const acompananteInfo = empleadoEncontrado.acompanante && empleadoEncontrado.acompanante !== 'N/A' && empleadoEncontrado.acompanante.toLowerCase() !== 'no' 
+                        ? `👥 Con acompañante: ${empleadoEncontrado.acompanante}` 
+                        : '👤 Sin acompañante';
+                    
+                    msg.innerHTML = `
+                        <div style="text-align: left;">
+                            <div style="font-size: 1.3rem; margin-bottom: 0.5rem;">✅ ¡Bienvenido!</div>
+                            <div style="font-size: 1.1rem; margin-bottom: 0.3rem;"><strong>${empleadoEncontrado.nombre}</strong></div>
+                            <div style="font-size: 0.95rem; opacity: 0.9;">🏢 ${empleadoEncontrado.sucursal}</div>
+                            <div style="font-size: 0.95rem; opacity: 0.9;">🆔 ID: ${empleadoEncontrado.idEmpleado}</div>
+                            <div style="font-size: 0.95rem; opacity: 0.9;">${acompananteInfo}</div>
+                        </div>
+                    `;
+                    msg.style.background = '#7f1d1d';
+                    msg.style.color = '#fecaca';
+                    msg.classList.remove('hidden');
+                    msg.classList.add('success');
+                    setTimeout(() => msg.classList.add('hidden'), 6000);
+                } else {
+                    msg.textContent = '❌ Código QR no encontrado en el sistema';
+                    msg.style.background = '#450a0a';
+                    msg.style.color = '#fca5a5';
+                    msg.classList.remove('hidden');
+                    setTimeout(() => msg.classList.add('hidden'), 3000);
+                }
+            } catch (error) {
+                console.error('Error al procesar registro:', error);
+                alert('Error al procesar registro: ' + error.message);
+            }
+        }
+
+        window.selectCompany = function(company, premio) {
+            currentPremio = premio;
+            document.getElementById('premioText').textContent = premio;
+            document.getElementById('companyList').classList.add('hidden');
+            document.getElementById('rouletteContainer').classList.remove('hidden');
+            document.getElementById('winnerText').textContent = 'Presiona Rifar';
+        };
+
+        window.volverCompanias = function() {
+            document.getElementById('companyList').classList.remove('hidden');
+            document.getElementById('rouletteContainer').classList.add('hidden');
+        };
+
+        window.rifar = async function() {
+            if (employees.length === 0) {
+                alert('No hay participantes registrados');
+                return;
+            }
+
+            const btn = document.getElementById('rifaBtn');
+            const roulette = document.getElementById('roulette');
+            const winnerText = document.getElementById('winnerText');
+            
+            btn.disabled = true;
+            btn.textContent = 'Rifando...';
+            roulette.classList.add('spinning');
+
+            let counter = 0;
+            const interval = setInterval(async () => {
+                const randomEmp = employees[Math.floor(Math.random() * employees.length)];
+                winnerText.textContent = randomEmp.nombre;
+                counter++;
+
+                if (counter > 20) {
+                    clearInterval(interval);
+                    const winner = employees[Math.floor(Math.random() * employees.length)];
+                    winnerText.textContent = winner.nombre;
+                    roulette.classList.remove('spinning');
+                    btn.disabled = false;
+                    btn.textContent = 'Rifar';
+
+                    try {
+                        await addDoc(collection(db, 'ganadores'), {
+                            nombre: winner.nombre,
+                            idEmpleado: winner.idEmpleado,
+                            sucursal: winner.sucursal,
+                            premio: currentPremio,
+                            timestamp: new Date().toISOString()
+                        });
+                    } catch (error) {
+                        console.error('Error al guardar ganador:', error);
+                    }
+                }
+            }, 100);
+        };
+
+        window.login = async function() {
+            const pass = document.getElementById('password').value;
+            if (pass === 'Moni_NRT') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminPanel').classList.remove('hidden');
+                await updateIdField();
+                await loadEmployees();
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        };
+
+        window.mostrarNombreArchivo = function() {
+            const fileInput = document.getElementById('excelFile');
+            const fileNameDisplay = document.getElementById('fileName');
+            
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                fileNameDisplay.textContent = `✅ ${fileName}`;
+                fileNameDisplay.style.color = '#86efac';
+            } else {
+                fileNameDisplay.textContent = 'Ningún archivo seleccionado';
+                fileNameDisplay.style.color = '#fcd34d';
+            }
+        };
+
+        window.importarExcel = async function() {
+            const fileInput = document.getElementById('excelFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Por favor selecciona un archivo Excel');
+                return;
+            }
+
+            const progressDiv = document.getElementById('importProgress');
+            progressDiv.textContent = '⏳ Leyendo archivo...';
+            progressDiv.style.background = '#7f1d1d';
+            progressDiv.style.color = '#fecaca';
+            progressDiv.classList.remove('hidden');
+
+            try {
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data, { type: 'array', codepage: 65001 });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: '' });
+
+                console.log('📊 Datos leídos del Excel:', jsonData);
+                console.log('📋 Total de filas:', jsonData.length);
+
+                if (jsonData.length === 0) {
+                    alert('El archivo Excel está vacío o no tiene datos');
+                    progressDiv.classList.add('hidden');
+                    return;
+                }
+
+                // Mostrar las columnas detectadas
+                if (jsonData.length > 0) {
+                    const columnas = Object.keys(jsonData[0]);
+                    console.log('📝 Columnas detectadas:', columnas);
+                    progressDiv.innerHTML = `
+                        <div>📊 ${jsonData.length} registros encontrados</div>
+                        <div style="font-size: 0.85rem; margin-top: 0.3rem;">Columnas: ${columnas.join(', ')}</div>
+                        <div style="font-size: 0.85rem; margin-top: 0.3rem;">Iniciando importación...</div>
+                    `;
+                }
+
+                let currentId = await getNextId();
+                let exitosos = 0;
+                let errores = 0;
+                let erroresDetalle = [];
+
+                for (let i = 0; i < jsonData.length; i++) {
+                    const row = jsonData[i];
+                    
+                    // Obtener todas las llaves de la fila
+                    const keys = Object.keys(row);
+                    
+                    // Buscar nombre (más flexible)
+                    let nombre = '';
+                    for (let key of keys) {
+                        const keyLower = key.toLowerCase().trim();
+                        if (keyLower.includes('nombre')) {
+                            nombre = limpiarTexto(row[key] || '');
+                            break;
+                        }
+                    }
+                    
+                    // Buscar sucursal/razón social (más flexible)
+                    let sucursal = '';
+                    for (let key of keys) {
+                        const keyLower = key.toLowerCase().trim();
+                        if (keyLower.includes('razon') || keyLower.includes('razón') || 
+                            keyLower.includes('sucursal') || keyLower.includes('empresa') || 
+                            keyLower.includes('social')) {
+                            sucursal = limpiarTexto(row[key] || '');
+                            break;
+                        }
+                    }
+                    
+                    // Buscar correo (más flexible)
+                    let correo = '';
+                    for (let key of keys) {
+                        const keyLower = key.toLowerCase().trim();
+                        if (keyLower.includes('correo') || keyLower.includes('email') || 
+                            keyLower.includes('mail') || keyLower.includes('e-mail')) {
+                            correo = (row[key] || '').trim();
+                            break;
+                        }
+                    }
+                    
+                    // Buscar acompañante (más flexible)
+                    let acompanante = 'N/A';
+                    for (let key of keys) {
+                        const keyLower = key.toLowerCase().trim();
+                        if (keyLower.includes('acompañ') || keyLower.includes('acompan') || 
+                            keyLower.includes('invitado')) {
+                            acompanante = limpiarTexto(row[key] || 'N/A');
+                            break;
+                        }
+                    }
+
+                    progressDiv.innerHTML = `
+                        <div>⏳ Procesando ${i + 1}/${jsonData.length}</div>
+                        <div style="font-size: 0.85rem; margin-top: 0.3rem;">${nombre || 'Sin nombre'}</div>
+                    `;
+
+                    if (!nombre || !sucursal || !correo) {
+                        console.warn(`⚠️ Fila ${i + 2} omitida: Nombre="${nombre}", Razón Social="${sucursal}", Correo="${correo}"`);
+                        erroresDetalle.push(`Fila ${i + 2}: Faltan datos (Nombre: ${nombre ? '✓' : '✗'}, Razón Social: ${sucursal ? '✓' : '✗'}, Correo: ${correo ? '✓' : '✗'})`);
+                        errores++;
+                        continue;
+                    }
+
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(correo)) {
+                        console.warn(`⚠️ Fila ${i + 2}: Correo inválido - ${correo}`);
+                        erroresDetalle.push(`Fila ${i + 2}: Correo inválido "${correo}"`);
+                        errores++;
+                        continue;
+                    }
+
+                    try {
+                        const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
+                        const acompananteText = acompanante || 'Sin acompañante';
+                        const qrData = `${nombre},${acompananteText},${currentId},${randomNumber}`;
+                        
+                        await addDoc(collection(db, 'Registro'), {
+                            idEmpleado: currentId,
+                            nombre: nombre,
+                            sucursal: sucursal,
+                            correo: correo,
+                            acompanante: acompanante || 'N/A',
+                            qrCode: qrData,
+                            numeroRandom: randomNumber,
+                            timestamp: new Date().toISOString()
+                        });
+
+                        console.log(`✅ Fila ${i + 2} guardada: ${nombre}`);
+                        exitosos++;
+                        currentId++;
+                    } catch (error) {
+                        console.error(`❌ Error en fila ${i + 2}:`, error);
+                        erroresDetalle.push(`Fila ${i + 2}: Error al guardar - ${error.message}`);
+                        errores++;
+                    }
+                }
+
+                console.log('📊 Resumen de importación:', { exitosos, errores });
+                if (erroresDetalle.length > 0) {
+                    console.log('⚠️ Detalle de errores:', erroresDetalle);
+                }
+
+                progressDiv.innerHTML = `
+                    <div>✅ Importación completa</div>
+                    <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        ✔️ Exitosos: ${exitosos} | ❌ Errores: ${errores}
+                    </div>
+                    ${errores > 0 ? '<div style="font-size: 0.85rem; margin-top: 0.3rem; opacity: 0.9;">Revisa la consola (F12) para ver detalles</div>' : ''}
+                `;
+                progressDiv.style.background = exitosos > 0 ? '#7f1d1d' : '#450a0a';
+                progressDiv.style.color = '#fecaca';
+
+                setTimeout(() => progressDiv.classList.add('hidden'), 8000);
+
+                fileInput.value = '';
+                document.getElementById('fileName').textContent = 'Ningún archivo seleccionado';
+                document.getElementById('fileName').style.color = '#fcd34d';
+                
+                if (exitosos > 0) {
+                    await updateIdField();
+                    await loadEmployees();
+                }
+
+            } catch (error) {
+                console.error('❌ Error crítico al procesar Excel:', error);
+                progressDiv.innerHTML = `
+                    <div>❌ Error al procesar archivo</div>
+                    <div style="font-size: 0.85rem; margin-top: 0.3rem;">${error.message}</div>
+                    <div style="font-size: 0.85rem; margin-top: 0.3rem;">Revisa la consola (F12) para más detalles</div>
+                `;
+                progressDiv.style.background = '#450a0a';
+                progressDiv.style.color = '#fca5a5';
+                setTimeout(() => progressDiv.classList.add('hidden'), 8000);
+            }
+        };
+
+        function limpiarTexto(texto) {
+            if (!texto) return '';
+            return texto
+                .toString()
+                // Solo corregir tildes invertidas a normales
+                .replace(/à/g, 'á').replace(/À/g, 'Á')
+                .replace(/è/g, 'é').replace(/È/g, 'É')
+                .replace(/ì/g, 'í').replace(/Ì/g, 'Í')
+                .replace(/ò/g, 'ó').replace(/Ò/g, 'Ó')
+                .replace(/ù/g, 'ú').replace(/Ù/g, 'Ú')
+                // NO tocar: ñ, Ñ, á, é, í, ó, ú, ü, Á, É, Í, Ó, Ú, Ü, ä, ë, ï, ö, etc.
+                .trim();
+        }
+
+        // Validar que el texto solo contenga caracteres permitidos para nombres
+        function esTextoValido(texto) {
+            if (!texto) return false;
+            // Permite letras (incluyendo ñ, acentos, diéresis), espacios, guiones, apóstrofes
+            const regex = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑàèìòùÀÈÌÒÙäëïöüÄËÏÖÜâêîôûÂÊÎÔÛçÇ\s\-'\.]+$/;
+            return regex.test(texto);
+        }
+
+        window.agregarEmpleado = async function() {
+            const nombre = limpiarTexto(document.getElementById('empNombre').value);
+            const idEmpleado = document.getElementById('empId').value;
+            const sucursal = limpiarTexto(document.getElementById('empSucursal').value);
+            const correo = document.getElementById('empCorreo').value.trim();
+            const acompanante = limpiarTexto(document.getElementById('empAcompanante').value);
+
+            if (!nombre || !sucursal || !correo) {
+                alert('Por favor completa todos los campos obligatorios (*): Nombre Completo, Razón Social y Correo');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(correo)) {
+                alert('Por favor ingresa un correo electrónico válido');
+                return;
+            }
+
+            try {
+                const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
+                const acompananteText = acompanante || 'Sin acompañante';
+                const qrData = `${nombre},${acompananteText},${idEmpleado},${randomNumber}`;
+                
+                await addDoc(collection(db, 'Registro'), {
+                    idEmpleado: parseInt(idEmpleado),
+                    nombre: nombre,
+                    sucursal: sucursal,
+                    correo: correo,
+                    acompanante: acompanante || 'N/A',
+                    qrCode: qrData,
+                    numeroRandom: randomNumber,
+                    timestamp: new Date().toISOString()
+                });
+
+                document.getElementById('empNombre').value = '';
+                document.getElementById('empSucursal').value = '';
+                document.getElementById('empCorreo').value = '';
+                document.getElementById('empAcompanante').value = '';
+                
+                alert('✅ Empleado registrado exitosamente!');
+                
+                await updateIdField();
+                await loadEmployees();
+            } catch (error) {
+                console.error('Error al agregar empleado:', error);
+                alert('❌ Error al agregar empleado: ' + error.message);
+            }
+        };
+
+        window.descargarQR = function(empId, nombre, numeroRandom) {
+            const qrSection = document.getElementById(`qr-${empId}`).parentElement;
+            if (!qrSection) {
+                alert('No se encontró el código QR');
+                return;
+            }
+
+            const canvas = qrSection.querySelector('canvas');
+            if (!canvas) {
+                alert('No se pudo encontrar el código QR');
+                return;
+            }
+
+            const tempCanvas = document.createElement('canvas');
+            const ctx = tempCanvas.getContext('2d');
+            
+            const qrSize = 200;
+            const padding = 20;
+            const textHeight = 30;
+            tempCanvas.width = qrSize + (padding * 2);
+            tempCanvas.height = qrSize + textHeight + (padding * 2);
+            
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            
+            ctx.drawImage(canvas, padding, padding, qrSize, qrSize);
+            
+            ctx.fillStyle = '#666';
+            ctx.font = 'bold 18px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(numeroRandom.toString(), tempCanvas.width / 2, qrSize + padding + 20);
+            
+            const url = tempCanvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `${nombre}.png`;
+            link.href = url;
+            link.click();
+        };
+
+        window.loadEmployees = async function() {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'Registro'));
+                employees = [];
+                querySnapshot.forEach((docSnap) => {
+                    employees.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                employees.sort((a, b) => a.idEmpleado - b.idEmpleado);
+
+                const list = document.getElementById('employeeList');
+                document.getElementById('empCount').textContent = employees.length;
+                
+                list.innerHTML = employees.map(emp => {
+                    const qrId = `qr-${emp.id}`;
+                    
+                    setTimeout(() => {
+                        const qrElement = document.getElementById(qrId);
+                        if (qrElement && !qrElement.hasChildNodes()) {
+                            try {
+                                new QRCode(qrElement, {
+                                    text: encodeURIComponent(emp.qrCode),
+                                    width: 200,
+                                    height: 200,
+                                    correctLevel: QRCode.CorrectLevel.M
+                                });
+                            } catch (error) {
+                                console.error('Error generando QR para:', emp.nombre, error);
+                                qrElement.innerHTML = '<p style="color: red; font-size: 0.8rem;">Error al generar QR</p>';
+                            }
+                        }
+                    }, 100);
+
+                    const nombreSeguro = (emp.nombre || '').replace(/'/g, "\\'").replace(/"/g, '\\"');
+                    
+                    return `
+                        <div class="employee-card">
+                            <div class="id-badge">ID: ${emp.idEmpleado || 'N/A'}</div>
+                            
+                            <div class="qr-section">
+                                <div id="${qrId}" class="qr-code"></div>
+                                <p style="color: #666; font-size: 0.9rem; margin-top: 0.5rem; font-family: monospace; font-weight: bold;">${emp.numeroRandom || 'N/A'}</p>
+                            </div>
+                            
+                            <h3>${emp.nombre || 'Sin nombre'}</h3>
+                            <p><strong>Razón Social:</strong> ${emp.sucursal || 'N/A'}</p>
+                            <p><strong>Correo:</strong> ${emp.correo || 'N/A'}</p>
+                            <p><strong>Acompañante:</strong> ${emp.acompanante || 'N/A'}</p>
+                            
+                            <button class="btn btn-rifa" style="width: 100%; margin-top: 1rem; padding: 0.75rem;" onclick="descargarQR('${emp.id}', '${nombreSeguro}', ${emp.numeroRandom || 0})">
+                                📥 Descargar QR
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error al cargar empleados:', error);
+                alert('Error al cargar empleados: ' + error.message);
+            }
+        };
+
+        window.borrarTodo = async function() {
+            // Primera confirmación
+            const confirmar1 = confirm('⚠️ ¿Estás seguro de que quieres BORRAR TODO?\n\nEsto eliminará:\n- Todos los empleados\n- Todas las asistencias\n- Todos los ganadores');
+            
+            if (!confirmar1) return;
+            
+            // Segunda confirmación
+            const confirmar2 = confirm('⚠️ ÚLTIMA ADVERTENCIA ⚠️\n\n¿REALMENTE quieres borrar TODA la base de datos?\n\nEsta acción NO se puede deshacer.');
+            
+            if (!confirmar2) return;
+            
+            // Tercera confirmación - escribir texto
+            const confirmar3 = prompt('Para confirmar, escribe "BORRAR TODO" (en mayúsculas):');
+            
+            if (confirmar3 !== 'BORRAR TODO') {
+                alert('Operación cancelada. No escribiste "BORRAR TODO" correctamente.');
+                return;
+            }
+            
+            try {
+                alert('⏳ Borrando base de datos... Por favor espera.');
+                
+                // Borrar colección "Registro"
+                const registroSnapshot = await getDocs(collection(db, 'Registro'));
+                let contadorRegistro = 0;
+                for (const docSnap of registroSnapshot.docs) {
+                    await deleteDoc(doc(db, 'Registro', docSnap.id));
+                    contadorRegistro++;
+                }
+                console.log(`✅ ${contadorRegistro} empleados eliminados`);
+                
+                // Borrar colección "asistencias"
+                const asistenciasSnapshot = await getDocs(collection(db, 'asistencias'));
+                let contadorAsistencias = 0;
+                for (const docSnap of asistenciasSnapshot.docs) {
+                    await deleteDoc(doc(db, 'asistencias', docSnap.id));
+                    contadorAsistencias++;
+                }
+                console.log(`✅ ${contadorAsistencias} asistencias eliminadas`);
+                
+                // Borrar colección "ganadores"
+                const ganadoresSnapshot = await getDocs(collection(db, 'ganadores'));
+                let contadorGanadores = 0;
+                for (const docSnap of ganadoresSnapshot.docs) {
+                    await deleteDoc(doc(db, 'ganadores', docSnap.id));
+                    contadorGanadores++;
+                }
+                console.log(`✅ ${contadorGanadores} ganadores eliminados`);
+                
+                alert(`✅ Base de datos borrada completamente:\n\n- ${contadorRegistro} empleados eliminados\n- ${contadorAsistencias} asistencias eliminadas\n- ${contadorGanadores} ganadores eliminados`);
+                
+                // Actualizar la vista
+                employees = [];
+                document.getElementById('employeeList').innerHTML = '';
+                document.getElementById('empCount').textContent = '0';
+                await updateIdField();
+                
+            } catch (error) {
+                console.error('❌ Error al borrar:', error);
+                alert('❌ Error al borrar la base de datos: ' + error.message);
+            }
+        };
+
+        console.log('✅ Firebase inicializado correctamente');
+    </script>
+</body>
+</html>
